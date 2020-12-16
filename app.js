@@ -28,14 +28,19 @@ app.use(express.urlencoded({ extended: true }));
 // echo '{"username":"john","password":"foo"}' | http post :3000/signup
 // http post :3000/signup usernmae=john password=foo
 app.post('/signup', async (req, res) => {
+    const user = new User(req.body);
+  user.save()
+  .then(user => {
+      res.status(200).send(user);
+    })
 
-  try {
-    // req.body.password = await bcrypt.hash(req.body.password, 10);
-    const user = new Users(req.body);
-    // pre-hook automatically hashes the password
-    const record = await user.save(req.body);
-    res.status(200).json(record);
-  } catch (e) { res.status(403).send("Error Creating User"); }
+//   try {
+//     // req.body.password = await bcrypt.hash(req.body.password, 10);
+//     const user = new Users(req.body);
+//     // pre-hook automatically hashes the password
+//     const record = await user.save(req.body);
+//     res.status(200).json(record);
+//   } catch (e) { res.status(403).send("Error Creating User"); }
 });
 
 
@@ -43,7 +48,7 @@ app.post('/signup', async (req, res) => {
 // test with httpie
 // http post :3000/signin -a john:foo
 app.post('/signin', basicAuth, (req, res) => {
-
+    console.log(req.user);
   res.status(200).send(req.user);
 
 });
