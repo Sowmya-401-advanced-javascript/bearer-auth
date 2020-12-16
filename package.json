@@ -1,0 +1,33 @@
+{
+  "name": "bearer-auth",
+  "version": "1.0.0",
+  "description": "401-bearer-auth",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "watch": "nodemon app.js",
+    "test-watch": "jest --watchAll",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sowmya-401-advanced-javascript/bearer-auth.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sowmya-401-advanced-javascript/bearer-auth/issues"
+  },
+  "homepage": "https://github.com/Sowmya-401-advanced-javascript/bearer-auth#readme",
+  "dependencies": {
+    "base-64": "^1.0.0",
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jest": "^26.6.3",
+    "mongoose": "^5.11.8",
+    "nodemon": "^2.0.6"
+  }
+}
