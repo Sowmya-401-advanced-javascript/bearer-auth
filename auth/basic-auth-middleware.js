@@ -14,10 +14,17 @@ module.exports = async (req, res, next) => {
       - Pull username and password from that array
   */
 
- let basicHeaderParts = req.headers.authorization.split(' ');  // ['Basic', 'sdkjdsljd=']
- let encodedString = basicHeaderParts.pop();  // sdkjdsljd=
- let decodedString = base64.decode(encodedString); // "username:password"
- let [username, password] = decodedString.split(':'); // username, password
+//  let basicHeaderParts = req.headers.authorization.split(' ');  // ['Basic', 'sdkjdsljd=']
+//  let encodedString = basicHeaderParts.pop();  // sdkjdsljd=
+//  let decodedString = base64.decode(encodedString); // "username:password"
+//  let [username, password] = decodedString.split(':'); // username, password
+
+    console.log('req.headers', req.headers)
+
+    let basic = req.headers.authorization.split(' ').pop();
+    console.log('basic', basic)
+    let [user, pass] = base64.decode(basic).split(':');
+    console.log('user, pass', [user, pass]);
 
  /*
    Now that we finally have username and password, let's see if it's valid
@@ -26,17 +33,15 @@ module.exports = async (req, res, next) => {
       - bcrypt does this by re-encrypting the plaintext password and comparing THAT
    3. Either we're valid or we throw an error
  */
- try {
-   req.user = await User.authenticateBasic(username, password);
-  //  const user = await Users.findOne({ username: username })
-  //  const valid = await bcrypt.compare(password, user.password);
-  //  if (valid) {
-  //    res.status(200).json(user);
-  //  }
-  //  else {
-  //    throw new Error('Invalid User')
-  //  }
- } catch (error) { res.status(403).send("Invalid Login"); }
 
- next();
+return User.authenticateBasic(user, pass)
+.then(_validate)
+function _validate (user) {
+if (user) {
+  req.user = user
+  next()
+} else {
+  next(new Error('you screwed it up'))
+}
+}
 }
